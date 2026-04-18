@@ -245,7 +245,17 @@ async function submitOrder(){
   err.style.display='none';
   const btn=document.getElementById('btnOrder');
   btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';
-  const order={الاسم:name,الهاتف:phone,الولاية:wilaya,البلدية:baladiya,علامة_السيارة:brand,الكمية:qty+' مجموعة',المجموع:(qty*2800)+' دج',المنتج:'مشبك حزام الأمان',التاريخ:new Date().toLocaleString('ar-DZ')};
+  const order = {
+  name: name,
+  phone: phone,
+  wilaya: wilaya,
+  baladiya: baladiya,
+  product: "مشبك حزام الأمان",
+  size: brand,
+  price: (qty*2800) + " دج",
+  date: new Date().toLocaleString('ar-DZ'),
+  value: qty*2800
+};
   fbq('track','Purchase',{value:qty*2800,currency:'DZD'});
   try{await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order),mode:'no-cors'});}catch(e){}
   document.getElementById('orderSummary').innerHTML='<p>👤 <strong>الاسم:</strong> '+name+'</p><p>📱 <strong>الهاتف:</strong> '+phone+'</p><p>📍 <strong>الولاية:</strong> '+wilaya+'</p><p>🏘️ <strong>البلدية:</strong> '+baladiya+'</p><p>🚗 <strong>العلامة:</strong> '+brand+'</p><p>📦 <strong>الكمية:</strong> '+qty+' مجموعة</p><p>💰 <strong>المجموع:</strong> '+(qty*2800)+' دج</p>';
